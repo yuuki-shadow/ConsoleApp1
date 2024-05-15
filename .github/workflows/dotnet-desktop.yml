@@ -36,14 +36,14 @@
 # For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
-name: .NET Core Desktop
+name: authenticate a nuget package
 
 on:
   workflow_dispatch:
   
 jobs:
 
-  build:
+  authenticate:
 
     runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
@@ -55,20 +55,15 @@ jobs:
       Wap_Project_Path: your-wap-project-path                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
 
     # Install the .NET Core workload
     - name: Install .NET Core
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-
-    - name: add packages
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: push
       run: |
         dotnet add package AppLogger --version 1.0.0
-        
-        name: MSIX Package
-        path: ${{ env.Wap_Project_Directory }}\AppPackages
